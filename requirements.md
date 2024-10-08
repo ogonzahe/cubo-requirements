@@ -9,13 +9,11 @@
    - Go to the [Node.js official website](https://nodejs.org/).
    - Click on the **LTS** version to download the installer.
 
-   ![Download Node.js](https://nodejs.org/static/images/homepage/hero-logo.svg)
 
 2. **Run the Installer**:
    - Open the downloaded `.msi` file.
    - Click **Next** on the welcome screen.
 
-   ![Node.js Installer Welcome Screen](https://nodejs.org/static/images/homepage/hero-logo.svg)
 
 3. **Accept the License Agreement**:
    - Read the license agreement, select **I accept the terms in the License Agreement**, then click **Next**.
@@ -37,7 +35,6 @@
 1. **Open Command Prompt**:
    - Press `Windows + R`, type `cmd`, and hit **Enter**.
 
-   ![Open Command Prompt](https://www.thewindowsclub.com/wp-content/uploads/2020/09/cmd.png)
 
 2. **Check Node.js Version**:
    - Type the following command and press **Enter**:
@@ -94,19 +91,16 @@
 1. **Go to the Git Website**:
    - Open your browser and navigate to the [Git official website](https://git-scm.com/).
 
-   ![Git Website](https://git-scm.com/images/logo@2x.png)
 
 2. **Download Git for Windows**:
    - Click the **Download for Windows** button.
 
-   ![Download Git for Windows](https://wac-cdn.atlassian.com/dam/jcr:74f1be28-b02b-4721-91c2-6b9c3f81a8a9/download.png)
 
 ### Step 2: Install Git
 
 1. **Run the Installer**:
    - Open the downloaded `.exe` file to start the installer.
 
-   ![Run Git Installer](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*13b2p45E3TuFM7Dt2EwNKg.png)
 
 2. **Welcome Screen**:
    - Click **Next** on the setup screen.
