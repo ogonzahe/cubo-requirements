@@ -9,11 +9,9 @@
    - Go to the [Node.js official website](https://nodejs.org/).
    - Click on the **LTS** version to download the installer.
 
-
 2. **Run the Installer**:
    - Open the downloaded `.msi` file.
    - Click **Next** on the welcome screen.
-
 
 3. **Accept the License Agreement**:
    - Read the license agreement, select **I accept the terms in the License Agreement**, then click **Next**.
@@ -34,7 +32,6 @@
 
 1. **Open Command Prompt**:
    - Press `Windows + R`, type `cmd`, and hit **Enter**.
-
 
 2. **Check Node.js Version**:
    - Type the following command and press **Enter**:
@@ -91,16 +88,13 @@
 1. **Go to the Git Website**:
    - Open your browser and navigate to the [Git official website](https://git-scm.com/).
 
-
 2. **Download Git for Windows**:
    - Click the **Download for Windows** button.
-
 
 ### Step 2: Install Git
 
 1. **Run the Installer**:
    - Open the downloaded `.exe` file to start the installer.
-
 
 2. **Welcome Screen**:
    - Click **Next** on the setup screen.
@@ -157,6 +151,109 @@
    ```bash
    git config --global user.email "your-email@example.com"
    ```
+---
+
+## Guide: Configuring SSH for Git on Windows
+
+### Step 1: Check for Git Installation
+
+1. **Open Git Bash**:
+   - Press the `Windows` key, search for **Git Bash**, and open it. This will allow you to use Git commands in a terminal.
+
+2. **Verify Git Installation**:
+   - In Git Bash, type the following command to check if Git is installed:
+     ```bash
+     git --version
+     ```
+   - If you see a version number, Git is installed. If not, install Git by following [this guide](https://git-scm.com/).
+
+### Step 2: Generate an SSH Key
+
+1. **Generate a New SSH Key**:
+   - In Git Bash, use the following command to create a new SSH key:
+     ```bash
+     ssh-keygen -t ed25519 -C "your_email@example.com"
+     ```
+   - Replace `"your_email@example.com"` with your actual email address associated with your Git account.
+
+2. **Follow the Prompts**:
+   - When prompted to save the file, press **Enter** to save it in the default directory (`~/.ssh`).
+   - You can add a passphrase for additional security, or just press **Enter** to skip this step.
+
+3. **Confirm Key Generation**:
+   - If successful, you should see output similar to:
+     ```
+     Your identification has been saved in /Users/YourName/.ssh/id_ed25519.
+     Your public key has been saved in /Users/YourName/.ssh/id_ed25519.pub.
+     ```
+
+### Step 3: Add SSH Key to the SSH-Agent
+
+1. **Start the SSH Agent**:
+   - In Git Bash, start the SSH agent with the following command:
+     ```bash
+     eval "$(ssh-agent -s)"
+     ```
+   - This should return a process ID number if successful.
+
+2. **Add the SSH Key to the Agent**:
+   - Next, add your newly created SSH key to the agent:
+     ```bash
+     ssh-add ~/.ssh/id_ed25519
+     ```
+
+### Step 4: Add SSH Key to Your Git Hosting Service
+
+#### For GitHub:
+
+1. **Copy the SSH Key**:
+   - In Git Bash, use this command to copy the SSH key to your clipboard:
+     ```bash
+     clip < ~/.ssh/id_ed25519.pub
+     ```
+   - If `clip` doesn't work, open the file manually in a text editor and copy the contents:
+     ```bash
+     cat ~/.ssh/id_ed25519.pub
+     ```
+
+2. **Add Key to GitHub**:
+   - Go to [GitHub](https://github.com/) and log in.
+   - Click on your profile icon in the upper-right corner, go to **Settings**.
+   - On the left menu, navigate to **SSH and GPG keys**, then click **New SSH key**.
+   - Give the key a title, paste your SSH key into the "Key" field, and click **Add SSH key**.
+
+### Step 5: Test the SSH Connection
+
+1. **Test GitHub Connection**:
+   - In Git Bash, use the following command to test the SSH connection with GitHub:
+     ```bash
+     ssh -T git@github.com
+     ```
+   - You should see a message like:
+     ```
+     Hi username! You've successfully authenticated, but GitHub does not provide shell access.
+     ```
+
+2. **Test GitLab Connection**:
+   - For GitLab, use this command:
+     ```bash
+     ssh -T git@gitlab.com
+     ```
+   - You should see a similar success message indicating that authentication was successful.
+
+### Additional Tips
+
+- **Using Multiple SSH Keys**:
+  - If you use multiple Git accounts, you can create multiple SSH keys and add them to `~/.ssh/config` file to manage each key per account.
+  
+- **Troubleshooting**:
+  - If you encounter issues, make sure your key is correctly added to the agent and that it's added to your Git hosting account.
+  - Check if the key permissions are set correctly:
+    ```bash
+    chmod 600 ~/.ssh/id_ed25519
+    chmod 644 ~/.ssh/id_ed25519.pub
+    ```
+
 ---
 
 ## Guide 3: Installing Visual Studio Code on Windows
