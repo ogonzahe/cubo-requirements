@@ -17,7 +17,7 @@ CREATE TABLE beqando.pools (
 );
 -- matches BBDD
 CREATE TABLE beqando.pool_fixtures (
-    id bigint NOT NULL AUTO_INCREMENT,
+    id bigint NOT NULL,
     pool_id bigint NOT NULL,
     start_time datetime NOT NULL,
     league varchar(30) NOT NULL, 
@@ -94,8 +94,7 @@ ALTER TABLE beqando.sales ADD CONSTRAINT FOREIGN KEY (user_id) REFERENCES users 
 ALTER TABLE beqando.sales_pools ADD CONSTRAINT FOREIGN KEY (sale_id) REFERENCES sales (id);
 ALTER TABLE beqando.sales_pools ADD CONSTRAINT FOREIGN KEY (pool_id) REFERENCES pools (id);
 ALTER TABLE beqando.predictions ADD CONSTRAINT FOREIGN KEY (sale_id) REFERENCES sales (id);
-ALTER TABLE beqando.predictions ADD CONSTRAINT FOREIGN KEY (pool_id) REFERENCES pools (id);
-ALTER TABLE beqando.predictions ADD CONSTRAINT FOREIGN KEY (fixture_id) REFERENCES pool_fixtures (id);
+ALTER TABLE beqando.predictions ADD CONSTRAINT FOREIGN KEY (fixture_id, pool_id) REFERENCES pool_fixtures (id, pool_id);
 
 INSERT INTO internal_users (username, password, name, last_name, email, created_at, updated_at, last_login)
 VALUES

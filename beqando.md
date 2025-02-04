@@ -88,6 +88,7 @@ curl -X POST http://localhost:8080/api/pools \
           "createdBy": 1,
           "fixtures": [
             {
+              "id": 1,
               "startTime": "2025-02-15T15:00:00",
               "league": "Premier League",
               "homeTeam": "Team A",
@@ -97,6 +98,7 @@ curl -X POST http://localhost:8080/api/pools \
               "createdAt": "2025-01-30T12:00:00"
             },
             {
+              "id": 2,
               "startTime": "2025-02-16T17:30:00",
               "league": "La Liga",
               "homeTeam": "Team C",
@@ -131,7 +133,7 @@ curl -X POST "http://localhost:8080/api/sales" \
                },
                {
                    "poolId": 2,
-                   "fixtureId": 3,
+                   "fixtureId": 2,
                    "prediction": "V"
                }
            ]
