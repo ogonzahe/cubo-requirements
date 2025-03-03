@@ -83,7 +83,7 @@ curl -X POST http://localhost:8080/api/pools \
     -d '{
           "type": 1,
           "beneficiary": 1,
-          "price": 50.00,
+          "price": 80.00,
           "endTime": "2025-02-20T23:59:59",
           "createdBy": 1,
           "fixtures": [
@@ -91,9 +91,9 @@ curl -X POST http://localhost:8080/api/pools \
               "id": 1,
               "startTime": "2025-02-15T15:00:00",
               "league": "Premier League",
-              "homeTeam": "Team A",
+              "homeTeam": "Team E",
               "homeTeamLogo": "http://example.com/logoA.png",
-              "awayTeam": "Team B",
+              "awayTeam": "Team F",
               "awayTeamLogo": "http://example.com/logoB.png",
               "createdAt": "2025-01-30T12:00:00"
             },
@@ -101,9 +101,9 @@ curl -X POST http://localhost:8080/api/pools \
               "id": 2,
               "startTime": "2025-02-16T17:30:00",
               "league": "La Liga",
-              "homeTeam": "Team C",
+              "homeTeam": "Team G",
               "homeTeamLogo": "http://example.com/logoC.png",
-              "awayTeam": "Team D",
+              "awayTeam": "Team H",
               "awayTeamLogo": "http://example.com/logoD.png",
               "createdAt": "2025-01-30T12:00:00"
             }
@@ -118,23 +118,78 @@ curl -X POST http://localhost:8080/api/pools \
 curl -X POST "http://localhost:8080/api/sales" \
      -H "Content-Type: application/json" \
      -d '{
-           "userId": 1,
+           "user": {
+              "id": "e87fc7b3-a65a-4527-a8d6-56f4c73f06cd"
+          },
            "pools": 2,
            "predictions": [
                {
                    "poolId": 1,
                    "fixtureId": 1,
-                   "prediction": "L"
+                   "prediction": "L",
+                   "donation": 80.00
                },
                {
                    "poolId": 1,
                    "fixtureId": 2,
-                   "prediction": "E"
+                   "prediction": "E",
+                   "donation": 80.00
+               },
+               {
+                   "poolId": 2,
+                   "fixtureId": 1,
+                   "prediction": "V",
+                   "donation": 80.00
                },
                {
                    "poolId": 2,
                    "fixtureId": 2,
-                   "prediction": "V"
+                   "prediction": "L",
+                   "donation": 80.00
+               }
+           ]
+         }'
+```
+
+### 2a. Crear una Venta con Predicciones para un usuario no registrado.
+
+#### Solicitud:
+```bash
+curl -X POST "http://localhost:8080/api/sales" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "user": {
+              "username": "some_user_name",
+              "email": "some_email@gmail.com",
+              "name": "some_name",
+              "lastName": "some_last_name",
+              "birthdate": "2025-03-02"
+          },
+           "pools": 2,
+           "predictions": [
+               {
+                   "poolId": 1,
+                   "fixtureId": 1,
+                   "prediction": "L",
+                   "donation": 80.00
+               },
+               {
+                   "poolId": 1,
+                   "fixtureId": 2,
+                   "prediction": "E",
+                   "donation": 80.00
+               },
+               {
+                   "poolId": 2,
+                   "fixtureId": 1,
+                   "prediction": "V",
+                   "donation": 80.00
+               },
+               {
+                   "poolId": 2,
+                   "fixtureId": 2,
+                   "prediction": "L",
+                   "donation": 80.00
                }
            ]
          }'
@@ -152,6 +207,27 @@ curl -X GET "http://localhost:8080/api/predictions/top-users/1?limit=3" -H "Cont
 #### Solicitud:
 ```bash
 curl -X GET http://localhost:8080/api/pools/1/fixtures -H "Content-Type: application/json"
+```
+
+### 5. Obtener el descuento de un código de promoción
+
+#### Solicitud:
+```bash
+curl -X GET http://localhost:8080/api/sales/discount/{code} -H "Content-Type: application/json"
+```
+
+### 5. Obtener las predicciones por ticket (Id de venta) para la pantalla de Mi Suerte
+
+#### Solicitud:
+```bash
+curl -X GET 'http://localhost:8080/api/predictions/sale/{saleId}' -H "Content-Type: application/json"
+```
+
+### 5. Obtener las predicciones por id de quiniela para la pantalla de ¿Ya gané?
+
+#### Solicitud:
+```bash
+curl -X GET 'http://localhost:8080/api/predictions/pool/{poolId}' -H "Content-Type: application/json"
 ```
 
 ---

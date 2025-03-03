@@ -25,13 +25,14 @@ CREATE TABLE beqando.pool_fixtures (
     home_team_logo varchar(150),
     away_team varchar(60),
     away_team_logo varchar(150),
+    result varchar(1),
     created_at datetime NOT NULL,
     PRIMARY KEY (id,pool_id)
 );
 -- sales BBDD
 CREATE TABLE beqando.sales (
     id bigint NOT NULL AUTO_INCREMENT,
-    user_id bigint NOT NULL,
+    user_id varchar(36) NOT NULL,
     pools int NOT NULL,
     transaction_id varchar(25) NOT NULL,
     transaction_authorization varchar(16) NOT NULL,
@@ -42,6 +43,7 @@ CREATE TABLE beqando.sales (
 CREATE TABLE beqando.sales_pools (
     sale_id bigint NOT NULL,
     pool_id bigint NOT NULL,
+    donation decimal(4,2) NOT NULL, 
     PRIMARY KEY (sale_id,pool_id)
 );
 -- predictions BBDD
@@ -55,9 +57,9 @@ CREATE TABLE beqando.predictions (
 );
 -- users BBDD
 CREATE TABLE beqando.users (
-    id bigint NOT NULL AUTO_INCREMENT,
+    id varchar(36) NOT NULL,
     username varchar(20) NOT NULL,
-    password char(60) BINARY NOT NULL,
+    password char(60) BINARY,
     name varchar(80) NOT NULL,
     last_name varchar(80) NOT NULL,
     birthdate date NOT NULL,
@@ -86,6 +88,16 @@ CREATE TABLE beqando.internal_users (
     CONSTRAINT u_email UNIQUE(email)
 );
 
+-- discounts BBDD
+CREATE TABLE beqando.discount_codes (
+    code varchar(10) NOT NULL,
+    discount int NOT NULL,
+    created_at datetime NOT NULL,
+    updated_at datetime NOT NULL,
+    PRIMARY KEY (code),
+    CONSTRAINT u_code UNIQUE(code)
+);
+
 ALTER TABLE beqando.sales ADD INDEX i_user (user_id);
 ALTER TABLE beqando.sales ADD INDEX i_transaction (transaction_id);
 ALTER TABLE beqando.pools ADD CONSTRAINT FOREIGN KEY (created_by) REFERENCES internal_users (id);
@@ -101,6 +113,7 @@ VALUES
 ('johndoe', 'hashedpasswordhere', 'John', 'Doe', 'johndoe@example.com', NOW(), NOW(), NULL);
 
 INSERT INTO beqando.users (
+    id,
     username, 
     password, 
     name, 
@@ -112,6 +125,7 @@ INSERT INTO beqando.users (
     last_login
 ) 
 VALUES (
+    'e87fc7b3-a65a-4527-a8d6-56f4c73f06cd', -- id
     'new_user',                      -- username
     'hashed_password_here',           -- password (should be hashed, not plain text)
     'John',                           -- name
@@ -122,4 +136,8 @@ VALUES (
     NOW(),                            -- updated_at (current timestamp)
     NULL                              -- last_login (NULL for now)
 );
+
+INSERT INTO beqando.discount_codes (code, discount, created_at, updated_at)
+VALUES
+('WELCOME', 10, NOW(), NOW());
 
