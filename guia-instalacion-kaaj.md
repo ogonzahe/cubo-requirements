@@ -190,3 +190,40 @@ npm run dev
 - Frontend disponible en: `http://localhost:5173`  
 
 Con esto el proyecto **Kaaj** queda listo para desarrollo.
+
+## 5. Estructura sugerida de repos
+
+**kaaj-frontend**
+```
+kaaj-frontend/
+  src/
+    lib/api.ts
+    pages/
+    components/
+    hooks/
+    styles/
+  public/
+  index.html
+  package.json
+  vite.config.ts
+  tailwind.config.js
+  postcss.config.js
+  .env (VITE_API_BASE_URL=...)
+```
+
+**kaaj-backend**
+```
+kaaj-backend/
+  src/main/java/com/kaaj/...
+    KaajApplication.java
+    api/ (controllers)
+    domain/ (entidades)
+    service/ (servicios)
+    repository/ (repos)
+    config/ (seguridad, cors, etc.)
+  src/main/resources/
+    application.properties
+  pom.xml
+  docker-compose.yml
+```
+
