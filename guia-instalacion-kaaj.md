@@ -124,13 +124,121 @@ brew install --cask visual-studio-code
 
 # 🛠️ Configuración de repositorios
 
-### 1. Clonar proyectos
+## 1. Configurar Git con tu usuario de GitHub
+
+Configura tu nombre y correo (el mismo registrado en GitHub):
 ```bash
-git clone https://github.com/tu-org/kaaj-frontend.git
-git clone https://github.com/tu-org/kaaj-backend.git
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu-email@ejemplo.com"
 ```
 
-### 2. Configurar base de datos local con Docker
+Verifica configuración:
+```bash
+git config --list
+```
+
+---
+
+## 2. Generar clave SSH
+
+Ejecuta el siguiente comando (reemplaza con tu correo de GitHub):
+
+### En Windows (Git Bash o PowerShell)
+```bash
+ssh-keygen -t ed25519 -C "tu-email@ejemplo.com"
+```
+
+- Cuando pregunte la ruta de guardado, presiona **Enter** (usará `C:\Users\TU_USUARIO\.ssh\id_ed25519`).  
+- Cuando pregunte la passphrase, puedes dejarla vacía o asignar una contraseña.
+
+Esto generará:
+- `id_ed25519` → clave privada (no compartir)  
+- `id_ed25519.pub` → clave pública (esta se sube a GitHub)  
+
+---
+
+## 4. Agregar la llave al agente SSH
+
+### Windows (Git Bash)
+Inicia el agente:
+```bash
+eval "$(ssh-agent -s)"
+```
+
+Agrega tu clave privada:
+```bash
+ssh-add ~/.ssh/id_ed25519
+```
+
+### Windows (PowerShell)
+1. Abre **PowerShell** como administrador.  
+2. Inicia el servicio de `ssh-agent`:
+   ```powershell
+   Get-Service -Name ssh-agent | Set-Service -StartupType Automatic
+   Start-Service ssh-agent
+   ```
+3. Agrega la clave:
+   ```powershell
+   ssh-add $env:USERPROFILE\.ssh\id_ed25519
+   ```
+
+### macOS
+```bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+```
+
+---
+
+## 5. Registrar la clave en GitHub
+
+1. Copia tu clave pública:
+   ```bash
+   cat ~/.ssh/id_ed25519.pub
+   ```
+   En Windows puedes usar:
+   ```powershell
+   Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub
+   ```
+
+2. Ve a GitHub → **Settings** → **SSH and GPG keys**  
+3. Haz clic en **New SSH key**, asigna un nombre (ej. *Mi Laptop*) y pega la clave pública.  
+4. Guarda.
+
+---
+
+## 6. Probar conexión con GitHub
+
+Ejecuta:
+```bash
+ssh -T git@github.com
+```
+
+Si todo está correcto deberías ver:
+```
+Hi usuario! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
+---
+
+## 7. Clonar un repositorio con SSH
+
+Ya puedes clonar usando la URL SSH (no HTTPS). Ejemplo:
+```bash
+git clone git@github.com:tu-usuario/kaaj-frontend.git
+git clone git@github.com:tu-usuario/kaaj-backend.git
+```
+
+---
+
+# ✅ Conclusión
+Con esta configuración:
+- Git usa tu identidad (nombre y correo).  
+- La autenticación con GitHub es segura mediante SSH.  
+- Puedes clonar, hacer *push* y *pull* sin tener que ingresar usuario/contraseña.
+
+
+### 8. Configurar base de datos local con Docker
 En `kaaj-backend/docker-compose.yml`:
 ```yaml
 version: "3.9"
@@ -156,7 +264,7 @@ Levantar contenedor:
 docker compose up -d
 ```
 
-### 3. Configuración backend (Spring Boot)
+### 9. Configuración backend (Spring Boot)
 En `src/main/resources/application.properties`:
 ```properties
 spring.datasource.url=jdbc:mariadb://localhost:3306/kaaj_core
@@ -172,7 +280,7 @@ Arrancar backend:
 mvn spring-boot:run
 ```
 
-### 4. Configuración frontend (React + Vite)
+### 10. Configuración frontend (React + Vite)
 Crear archivo `.env` en `kaaj-frontend`:
 ```env
 VITE_API_BASE_URL=http://localhost:8080
@@ -191,7 +299,7 @@ npm run dev
 
 Con esto el proyecto **Kaaj** queda listo para desarrollo.
 
-## 5. Estructura sugerida de repos
+## 11. Estructura sugerida de repos
 
 **kaaj-frontend**
 ```
